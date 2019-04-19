@@ -7,6 +7,7 @@
 .Nd automatically connect to a known wifi network
 .Sh SYNOPSIS
 .Nm
+.Op Fl s
 .Op Fl v
 .Oo
 .Fl x Ar excluded_profile
@@ -33,6 +34,15 @@ for
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl s
+Just scan and create the symlink; don't run
+.Xr netstart 8 .
+This might be used to insert a call to
+.Nm
+prior to the systemwide
+.Xr netstart 8
+in
+.Xr rc 8 .
 .It Fl v
 Print the version and exit.
 .It Fl x Ar excluded_profile
@@ -114,11 +124,18 @@ matches. It is your responsibility to ensure that your
 .Pa config.h
 lines up with your
 .Pa hostname.d .
-.Sm on
+.Pp
+.Nm
+doesn't clear any interface configuration aside from BSSID. Therefore,
+to switch from a secured network to an open network, you'll need
+an explicit "-wpakey" in the
+.Xr hostname.if 5
+file for the open network.
 .Sh FILES
 .Bl -tag -width "/etc/hostname.d/XXX.YYYYYY   "
 .It Pa /etc/hostname.d/XXX.YYYYYY
 Interface- and network-specific profiles.
+.El
 .Sh EXIT STATUS
 .Nm
 exits 0 on success, 1 if any of its calls failed, and 2 if it found
@@ -126,9 +143,10 @@ no networks that matched a known profile.
 .Sh SEE ALSO
 .Xr hostname.if 5 ,
 .Xr ifconfig 8 ,
-.Xr netstart 8
+.Xr netstart 8 ,
+.Xr rc 8
 .Sh AUTHORS
-.Nm Steven Dee
+.An Steven Dee
 .Ao
 .Mt steve@smartercode.net
 .Ac

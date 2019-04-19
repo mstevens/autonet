@@ -1,4 +1,5 @@
 #!/bin/sh
+# See LICENSE file for copyright and license details.
 
 PREFIX=$(dirname $(dirname $0))
 argv0=$(basename $0)
@@ -21,8 +22,8 @@ function netpref_new {
 		  cat "$CONFIG_H_NEW"
 		  echo accept?
 		  read &&
-		  { sudo cp -f "$CONFIG_H_NEW" "$CONFIG_H" &&
-		    sudo cp -i "$filename" "/etc/hostname.d/$IFNAME.${profile:-$nwid}"
+		  { cp -f "$CONFIG_H_NEW" "$CONFIG_H" &&
+		    cp -i "$filename" "/etc/hostname.d/$IFNAME.${profile:-$nwid}"
 		  }
 		}
 }
@@ -33,7 +34,7 @@ function netpref_new {
 
 IFNAME=iwn0
 PROFILE=$1
-CONFIG_H=/usr/local/src/autonet/config.h
+CONFIG_H=/usr/ports/mystuff/net/autonet/files/config.h
 
 HOSTNAME_IF=$(mktemp -t "iwn0.$PROFILE.XXXXXXXX")
 CONFIG_H_LINE=$(mktemp -t)
